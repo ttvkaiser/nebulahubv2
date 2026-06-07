@@ -26,104 +26,128 @@ do
 	end
 end
 Custom:EnabledAFK()
+local HttpService = game:GetService("HttpService")
+local RunService = game:GetService("RunService")
+local Player = game:GetService("Players").LocalPlayer
+local TweenService = game:GetService("TweenService")
+
+local folder = "NebulaHub/Images"
+local file = folder.."/openclose.png"
+local url = "https://raw.githubusercontent.com/ttvkaiser/nebulahubv2/refs/heads/main/image/download/Screenshot_20260601-120642.png"
+
+if not isfolder("NebulaHub") then makefolder("NebulaHub") end
+if not isfolder(folder) then makefolder(folder) end
+
+if not isfile(file) then
+    writefile(file, game:HttpGet(url))
+end
+
 local function OpenClose()
-	local ScreenGui = Custom:Create("ScreenGui", {
-		ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-	}, RunService:IsStudio() and Player.PlayerGui or (gethui() or cloneref(game:GetService("CoreGui")) or game:GetService("CoreGui")))
-	local Close_ImageButton = Custom:Create("ImageButton", {
-		BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-		BorderColor3 = Color3.fromRGB(255, 0, 0),
-		BackgroundTransparency = 1,
-		Position = UDim2.new(0.1021, 0, 0.0743, 0),
-		Size = UDim2.new(0, 59, 0, 59),
-		Image = "rbxassetid://79548423196034",
-		Visible = false,
-	}, ScreenGui)
-	local UICorner = Custom:Create("UICorner", {
-		Name = "MainCorner",
-		CornerRadius = UDim.new(0, 4),
-	}, Close_ImageButton)
-	local dragging, dragStart, startPos = false, nil, nil
-	local function UpdateDraggable(input)
-		local delta = input.Position - dragStart
-		Close_ImageButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	end
-	Close_ImageButton.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
-			dragging = true
-			dragStart = input.Position
-			startPos = Close_ImageButton.Position
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
-		end
-	end)
-	Close_ImageButton.InputChanged:Connect(function(input)
-		if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-			UpdateDraggable(input)
-		end
-	end)
-	return Close_ImageButton
+    local ScreenGui = Custom:Create("ScreenGui", {
+        ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    }, RunService:IsStudio() and Player.PlayerGui or (gethui() or cloneref(game:GetService("CoreGui")) or game:GetService("CoreGui")))
+
+    local Close_ImageButton = Custom:Create("ImageButton", {
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0.1021, 0, 0.0743, 0),
+        Size = UDim2.new(0, 59, 0, 59),
+        Image = getsynasset and getsynasset(file) or getcustomasset(file),
+        Visible = true
+    }, ScreenGui)
+
+    local UICorner = Custom:Create("UICorner", {
+        CornerRadius = UDim.new(0, 4)
+    }, Close_ImageButton)
+
+    local dragging, dragStart, startPos = false, nil, nil
+
+    local function UpdateDraggable(input)
+        local delta = input.Position - dragStart
+        Close_ImageButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+
+    Close_ImageButton.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = Close_ImageButton.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    Close_ImageButton.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            UpdateDraggable(input)
+        end
+    end)
+
+    return Close_ImageButton
 end
+
 local Open_Close = OpenClose()
+
 local function MakeDraggable(topbarobject, object)
-	local dragging, dragStart, startPos = false, nil, nil
-	local function UpdatePos(input)
-		local delta = input.Position - dragStart
-		local newPos = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-		object.Position = newPos
-	end
-	topbarobject.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			dragging = true
-			dragStart = input.Position
-			startPos = object.Position
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
-		end
-	end)
-	topbarobject.InputChanged:Connect(function(input)
-		if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-			UpdatePos(input)
-		end
-	end)
+    local dragging, dragStart, startPos = false, nil, nil
+
+    local function UpdatePos(input)
+        local delta = input.Position - dragStart
+        object.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+
+    topbarobject.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = object.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    topbarobject.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            UpdatePos(input)
+        end
+    end)
 end
+
 function CircleClick(Button, X, Y)
-	task.spawn(function()
-		Button.ClipsDescendants = true
-		local Circle = Instance.new("ImageLabel")
-		Circle.Image = "rbxassetid://106471194043211"
-		Circle.ImageColor3 = Color3.fromRGB(80, 80, 80)
-		Circle.ImageTransparency = 0.8999999761581421
-		Circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		Circle.BackgroundTransparency = 1
-		Circle.ZIndex = 10
-		Circle.Name = "Circle"
-		Circle.Parent = Button
-		local NewX = X - Button.AbsolutePosition.X
-		local NewY = Y - Button.AbsolutePosition.Y
-		Circle.Position = UDim2.new(0, NewX, 0, NewY)
-		local Size = math.max(Button.AbsoluteSize.X, Button.AbsoluteSize.Y) * 1.5
-		local Time = 0.5
-		local TweenInfo = TweenInfo.new(Time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-		local Tween = TweenService:Create(Circle, TweenInfo, {
-			Size = UDim2.new(0, Size, 0, Size),
-			Position = UDim2.new(0.5, - Size / 2, 0.5, - Size / 2)
-		})
-		Tween:Play()
-		Tween.Completed:Connect(function()
-			for i = 1, 10 do
-				Circle.ImageTransparency = Circle.ImageTransparency + 0.01
-				wait(Time / 10)
-			end
-			Circle:Destroy()
-		end)
-	end)
+    task.spawn(function()
+        Button.ClipsDescendants = true
+        local Circle = Instance.new("ImageLabel")
+        Circle.Image = "rbxassetid://106471194043211"
+        Circle.ImageColor3 = Color3.fromRGB(80, 80, 80)
+        Circle.ImageTransparency = 0.9
+        Circle.BackgroundTransparency = 1
+        Circle.ZIndex = 10
+        Circle.Name = "Circle"
+        Circle.Parent = Button
+        local NewX = X - Button.AbsolutePosition.X
+        local NewY = Y - Button.AbsolutePosition.Y
+        Circle.Position = UDim2.new(0, NewX, 0, NewY)
+        local Size = math.max(Button.AbsoluteSize.X, Button.AbsoluteSize.Y) * 1.5
+        local Time = 0.5
+        local TweenInfo = TweenInfo.new(Time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        local Tween = TweenService:Create(Circle, TweenInfo, {
+            Size = UDim2.new(0, Size, 0, Size),
+            Position = UDim2.new(0.5, -Size/2, 0.5, -Size/2)
+        })
+        Tween:Play()
+        Tween.Completed:Connect(function()
+            for i = 1, 10 do
+                Circle.ImageTransparency = Circle.ImageTransparency + 0.01
+                task.wait(Time/10)
+            end
+            Circle:Destroy()
+        end)
+    end)
 end
 local Speed_Library, Notification = {}, {}
 Speed_Library.Unloaded = false
