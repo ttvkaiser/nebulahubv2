@@ -400,7 +400,7 @@ function Speed_Library:CreateWindow(Config)
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		BorderSizePixel = 0,
 		Size = UDim2.new(1, - (TextLabel.TextBounds.X + 104), 1, 0),
-		Position = UDim2.new(0, TextLabel.TextBounds.X + 15, 0, 0),
+		Position = UDim2.new(0, TextLabel.TextBounds.X + 25, 0, 0),
 		Name = "WindowDescription"
 	}, Top)
 	Custom:Create("UIStroke", {
