@@ -213,7 +213,6 @@ function Speed_Library:SetNotification(Config)
 		BorderSizePixel = 0,
 		Size = UDim2.new(1, 0, 1, 0),
 		ZIndex = 0,
-        Position = UDim2.new(0, 254, 0, -30),
 		Name = "DropShadowHolder",
 		Parent = NotificationFrameReal
 	})
@@ -361,7 +360,7 @@ function Speed_Library:CreateWindow(Config)
 		Size = UDim2.new(0, 455, 0, 350),
 		ZIndex = 0,
 		Name = "DropShadowHolder",
-		Position = UDim2.new(0, (SpeedHubXGui.AbsoluteSize.X // 2 - 455 // 2), 0, (SpeedHubXGui.AbsoluteSize.Y // 2 - 350 // 2))
+		Position = UDim2.new(0, 254, 0, -30)
 	}, SpeedHubXGui)
 	local DropShadow = Custom:Create("ImageLabel", {
 		Image = "",
