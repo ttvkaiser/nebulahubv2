@@ -35,13 +35,13 @@ local function OpenClose()
 		BorderColor3 = Color3.fromRGB(255, 0, 0),
 		BackgroundTransparency = 1,
 		Position = UDim2.new(0.1021, 0, 0.0743, 0),
-		Size = UDim2.new(0, 59, 0, 49),
-		Image = "rbxassetid://136890595976124",
+		Size = UDim2.new(0, 59, 0, 59),
+		Image = "rbxassetid://79548423196034",
 		Visible = false,
 	}, ScreenGui)
 	local UICorner = Custom:Create("UICorner", {
 		Name = "MainCorner",
-		CornerRadius = UDim.new(0, 9),
+		CornerRadius = UDim.new(0, 4),
 	}, Close_ImageButton)
 	local dragging, dragStart, startPos = false, nil, nil
 	local function UpdateDraggable(input)
