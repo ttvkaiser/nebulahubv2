@@ -52,7 +52,7 @@ local function OpenClose()
         Position = UDim2.new(0.1021, 0, 0.0743, 0),
         Size = UDim2.new(0, 59, 0, 59),
         Image = getsynasset and getsynasset(file) or getcustomasset(file),
-        Visible = true
+        Visible = false
     }, ScreenGui)
 
     local UICorner = Custom:Create("UICorner", {
